@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Legs</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Description</th>
+      <th>Distance</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @legs.each do |leg| %>
+      <tr>
+        <td><%= leg.description %></td>
+        <td><%= leg.distance %></td>
+        <td><%= link_to 'Show', leg %></td>
+        <td><%= link_to 'Edit', edit_leg_path(leg) %></td>
+        <td><%= link_to 'Destroy', leg, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Leg', new_leg_path %>

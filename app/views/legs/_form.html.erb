@@ -1,0 +1,25 @@
+<%= form_for(@leg) do |f| %>
+  <% if @leg.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@leg.errors.count, "error") %> prohibited this leg from being saved:</h2>
+
+      <ul>
+      <% @leg.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :description %><br>
+    <%= f.text_area :description %>
+  </div>
+  <div class="field">
+    <%= f.label :distance %><br>
+    <%= f.text_field :distance %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
