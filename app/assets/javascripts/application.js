@@ -15,3 +15,5 @@
 //= require turbolinks
 //= require_tree .
 //= require leaflet
+//= require leaflet-omnivore
+//= require bootstrap

@@ -11,20 +11,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151112141601) do
+ActiveRecord::Schema.define(version: 20151112195526) do
 
   create_table "legs", force: :cascade do |t|
     t.text     "description"
     t.decimal  "distance"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.string   "track"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.string   "track_file_name"
+    t.string   "track_content_type"
+    t.integer  "track_file_size"
+    t.datetime "track_updated_at"
+    t.integer  "trip_id"
   end
+
+  add_index "legs", ["trip_id"], name: "index_legs_on_trip_id"
 
   create_table "trips", force: :cascade do |t|
     t.text     "description"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.string   "title"
   end
 
 end

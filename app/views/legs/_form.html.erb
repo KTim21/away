@@ -1,4 +1,4 @@
-<%= form_for(@leg) do |f| %>
+<%= form_for @leg, html: { multipart: true } do |f| %>
   <% if @leg.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@leg.errors.count, "error") %> prohibited this leg from being saved:</h2>
@@ -10,6 +10,7 @@
       </ul>
     </div>
   <% end %>
+  <%= hidden_field_tag :trip, params[:trip] %>
 
   <div class="field">
     <%= f.label :description %><br>
@@ -18,6 +19,10 @@
   <div class="field">
     <%= f.label :distance %><br>
     <%= f.text_field :distance %>
+  </div>
+  <div class="field">
+    <%= f.label :track %><br>
+    <%= f.file_field :track %>
   </div>
   <div class="actions">
     <%= f.submit %>

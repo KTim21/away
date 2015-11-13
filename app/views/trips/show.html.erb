@@ -1,9 +1,25 @@
-<p id="notice"><%= notice %></p>
+<h2><%= @trip.description %></h2>
 
-<p>
-  <strong>Description:</strong>
-  <%= @trip.description %>
-</p>
+<h3>Etappen</h2>
+
+<table class="table table-striped">
+  <%= render(@trip.legs) %>
+</table>
+<%= link_to 'Etappe hinzufügen', new_leg_path(trip: @trip.id), class: "btn btn-success" %>
 
 <%= link_to 'Edit', edit_trip_path(@trip) %> |
-<%= link_to 'Back', trips_path %>
+
+
+<div id="map" class="panel" style="height: 300px; overflow: hidden;"></div>
+
+<script>
+  map = L.map('map', {zoomControl: false, attributionControl: false}).setView([55, 11], 8);
+  L.tileLayer('https://{s}.tiles.mapbox.com/v3/ktim.i8d5p969/{z}/{x}/{y}.png').addTo(map);
+  <% @trip.legs.each do |leg| %>
+  var trackLayer<%= leg.id %> = omnivore.gpx('<%= leg.track.url %>')
+    .on('ready', function() {
+        map.fitBounds(trackLayer<%= leg.id %>.getBounds());
+    })
+    .addTo(map);
+  <% end %>
+</script>

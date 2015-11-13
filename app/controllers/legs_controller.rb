@@ -24,8 +24,8 @@ class LegsController < ApplicationController
   # POST /legs
   # POST /legs.json
   def create
-    @leg = Leg.new(leg_params)
-
+    trip = Trip.find(params[:trip])
+    @leg = trip.legs.build(leg_params)
     respond_to do |format|
       if @leg.save
         format.html { redirect_to @leg, notice: 'Leg was successfully created.' }
@@ -69,6 +69,6 @@ class LegsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def leg_params
-      params.require(:leg).permit(:description, :distance)
+      params.require(:leg).permit(:description, :distance, :track, :trip)
     end
 end
