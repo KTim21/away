@@ -54,8 +54,14 @@ ActiveRecord::Schema.define(version: 20151205141808) do
     t.datetime "image_updated_at"
   end
 
-# Could not dump table "users" because of following NoMethodError
-#   undefined method `[]' for nil:NilClass
+  create_table "users", force: :cascade do |t|
+    t.string   "name"
+    t.string   "password_digest"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.integer  "role"
+    t.string   "remember"
+  end
 
   create_table "usertrips", id: false, force: :cascade do |t|
     t.integer "user_id"
