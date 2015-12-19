@@ -1,10 +1,11 @@
 class TripsController < ApplicationController
-  before_action :set_trip, only: [:show, :edit, :update, :destroy]
+  skip_before_action :authorize, only: [:show]
+  before_action :set_trip, only: [:show, :edit, :update, :destroy, :add_user, :remove_user]
 
   # GET /trips
   # GET /trips.json
   def index
-    @trips = Trip.all
+    redirect_to current_user
   end
 
   # GET /trips/1
@@ -25,10 +26,11 @@ class TripsController < ApplicationController
   # POST /trips.json
   def create
     @trip = Trip.new(trip_params)
-
+    current_user.trips << @trip
     respond_to do |format|
       if @trip.save
-        format.html { redirect_to @trip, notice: 'Trip was successfully created.' }
+        current_user.save!
+        format.html { redirect_to @trip }
         format.json { render :show, status: :created, location: @trip }
       else
         format.html { render :new }
@@ -42,7 +44,7 @@ class TripsController < ApplicationController
   def update
     respond_to do |format|
       if @trip.update(trip_params)
-        format.html { redirect_to @trip, notice: 'Trip was successfully updated.' }
+        format.html { redirect_to @trip }
         format.json { render :show, status: :ok, location: @trip }
       else
         format.html { render :edit }
@@ -60,6 +62,20 @@ class TripsController < ApplicationController
       format.json { head :no_content }
     end
   end
+  
+  def add_user
+    user = User.find(params[:user])
+    user.trips << @trip unless user.trips.include? @trip
+    user.save!
+    redirect_to current_user
+  end
+  
+  def remove_user
+    user = User.find(params[:user])
+    if user.trips.delete(@trip)
+      redirect_to current_user
+    end
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -69,6 +85,6 @@ class TripsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def trip_params
-      params.require(:trip).permit(:description)
+      params.require(:trip).permit(:description, :title, :image, :user)
     end
 end

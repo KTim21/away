@@ -1,3 +1,8 @@
 <tr>
-  <td><%= leg.description %></td>
+  <td>
+    <h4><%= link_to leg.title, leg %></h4>
+    <p><%= leg.description %></p>
+    <%= link_to 'Bearbeiten', edit_leg_path(leg), class: 'btn btn-primary btn-xs' %>
+    <%= link_to 'Löschen', leg, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-xs' %>
+  </td>
 </tr>

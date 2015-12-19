@@ -1,0 +1,9 @@
+<h2>Benutzerverwaltung</h2>
+
+<h3>AdministratorInnen</h3>
+<%= render 'tabelle', users: @admins %>
+
+<h3>BenutzerInnen</h3>
+<%= render 'tabelle', users: @editors %>
+
+<%= link_to 'Neuer Benutzer', new_user_path, class: 'btn btn-success' %>

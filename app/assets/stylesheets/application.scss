@@ -14,3 +14,192 @@
 // "bootstrap-sprockets" must be imported before "bootstrap" and "bootstrap/variables"
 @import "bootstrap-sprockets";
 @import "bootstrap";
+@import "leaflet";
+@import "bootstrap-datepicker";
+
+/*
+ * 1.0 Allgemeines
+ */
+
+#body {
+  height: 100%;
+}
+
+.navbar {
+  z-index: 10;
+}
+
+.navbar + .container {
+  #overlay, #map, #row, #sidebar {
+    margin-top: 50px;
+  }
+}
+
+#map {
+  height: 100%;
+  margin: 0;
+  position: absolute;
+  width: 100%;
+  top: 0px;
+  right: 0px;
+  z-index: 5;
+}
+
+
+/*
+ * 2.0 Trip-Übersicht
+ */
+
+#overlay {
+  background-color: black;
+  opacity: 0.25;
+  height: 100%;
+  margin: 0;
+  position: absolute;
+  width: 100%;
+  top: 0px;
+  right: 0px;
+  z-index: 10;
+}
+
+.trip-thumbnail {
+  z-index: 20;
+  
+  .thumbnail {
+    box-shadow: 0pt 0pt 8px rgba(0, 0, 0, 0.4);
+    background-color: #14960f;
+    border: none;
+    color: white;
+    
+    em a, p, h3, h3 a, span a {
+      color: white;
+    }
+  }
+}
+
+
+/*
+ * 3.0 Tour-Darstellung
+ */
+
+
+#sidebar {
+  background-color: white;
+  box-shadow: 0pt 0pt 8px rgba(0, 0, 0, 0.4);
+  left: 5%;
+  max-height: 100%;
+  max-width: 560px;
+  min-width: 300px;
+  overflow: auto;
+  padding-top: 0;
+  position: absolute;
+  top: 0px;
+  width: 35%;
+  z-index: 10;
+  
+  #tourTitle {
+    background-color: rgb(20,150,15);
+    color: white;
+    min-height: 8.5rem;
+    
+    h2, p {
+      margin-left: 1.5rem;
+    }
+    
+    h2 {
+      margin-top: 0;
+      padding-top: 1.0rem;
+      
+      a {
+        color: white;
+      }
+    }
+    
+    img {
+      height: 7.5rem;
+      width: auto;
+      float: left;
+      margin: 0.5rem;
+      margin-right: 1.5rem;
+    }
+  }
+  
+  #sidebar-content {
+    overflow: auto;
+    width: 100%;
+    
+    #etappenBox {
+      margin: 0.8rem;
+      text-align: center;
+      vertical-align: bottom;
+
+      h3 {
+        display: inline;
+      }
+      
+      a.left {
+        float: left;
+      }
+      
+      a.right {
+        float: right;
+      } 
+    }
+    
+    #contentBox {
+      h3, p, ol {
+        margin: 0.8rem;
+      }
+    
+      ol {
+        padding: 0;
+      
+        li {
+          border-right: 1px solid black;
+          display: inline;
+          padding: 0px 0.5rem;
+        }
+        
+        li:first-child {
+          padding-left: 0px;
+        }
+        
+        li:last-child {
+          border-right: none;
+          padding-right: 0px;
+        }
+      }
+    }
+    
+    #photoBox {
+      a.btn {
+        margin: 0.8rem;
+      }
+    }
+  }
+}
+
+
+/*
+ * 4.0 Admin-Interface
+ */
+
+.table {
+  td.trip-description {
+    padding: 0;
+  }
+  
+  img {
+    width: 20%;
+  }
+  
+  .table {
+    tr:first-child td {
+      border-top: none;
+    }
+  }
+}
+
+.table-actions {
+  float: right;
+}

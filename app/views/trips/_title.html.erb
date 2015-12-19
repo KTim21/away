@@ -1,0 +1,17 @@
+<div id="tourTitle">
+  <% if trip.image.exists? %>
+    <%= image_tag trip.image.url %>
+  <% end %>
+  <h2>
+    <%= link_to trip.title, trip %>
+    <% if user_is_part?(trip) %>
+      <%= link_to edit_trip_path(trip) do %>
+        <%= render 'custom/button_edit' %>
+      <% end %>
+      <%= link_to trip, method: :delete, data: { confirm: 'Möchtest du die Tour wirklich löschen?' } do %>
+        <%= render 'custom/button_delete' %>
+      <% end %>
+    <% end %>
+  </h2>
+  <p><%= trip.description %></p>
+</div>

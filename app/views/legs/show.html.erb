@@ -1,10 +1,144 @@
+<%= render 'photos/modal_add_photo', leg: @leg%>
+
+<div id="sidebar">
+  <%= render 'trips/title', trip: @leg.trip %>
+  
+  <div id="sidebar-content">
+    <div id="etappenBox">
+      <% if @leg.prev_leg %>
+        <%= link_to "« #{@leg.prev_leg.title}", @leg.prev_leg, class: "left" %>
+      <% end %>
+      
+      <h3>
+        <%= @leg.title %>
+        <% if @leg.date %>
+          <small><%= l @leg.date %></small>
+        <% end %>
+        <% if user_is_part?(@leg.trip) %>
+          <%= link_to edit_leg_path(@leg) do %>
+            <%= render 'custom/button_edit' %>
+          <% end %>
+          <%= link_to @leg, method: :delete, data: { confirm: 'Möchtest du die Etappe wirklich löschen?' } do %>
+            <%= render 'custom/button_delete' %>
+          <% end %>
+        <% end %>
+      </h3>
+      
+      <% if @leg.next_leg %>
+        <%= link_to "#{@leg.next_leg.title} »", @leg.next_leg, class: "right" %>
+      <% end %>
+    </div>
+    <div id="contentBox">
+      <p><%= @leg.description %></p>
+      <dl class="dl-horizontal">
+        <% if @leg.distance %>
+          <dt>Strecke</dt>
+          <dd><%= @leg.distance %> km</dd>
+        <% end %>
+        <% if @leg.time %>
+          <dt>Fahrzeit</dt>
+          <dd><%= @leg.time %></dd>
+        <% end %>
+        <% if @leg.maxkmh %>
+          <dt>Höchstgeschwindigkeit</dt>
+          <dd><%= @leg.maxkmh %></dd>
+        <% end %>
+        <% if @leg.hm %>
+          <dt>Höhenmeter</dt>
+          <dd><%= @leg.hm %> m</dd>
+        <% end %>
+      </dl>
+    </div>
+    <div id="photoBox">
+      <% if @leg.photos.any? %>
+        <div id="carousel-image" class="carousel slide" data-ride="carousel">
+          <!-- Indicators -->
+          <ol class="carousel-indicators">
+            <% @leg.photos.each_with_index do |photo,index| %>
+              <li data-target="#carousel-image" data-slide-to="<%= index.to_s %>"
+              <% if index==0 %>
+                class="active"
+              <% end %>></li>
+            <% end %>
+          </ol>
+          <!-- Wrapper for slides -->
+          <div class="carousel-inner" role="listbox">
+            <% first = true %>
+            <% @leg.photos.each do |photo| %>
+              <div class="item<%=' active'if first %>">
+                <%= image_tag photo.image.url %>
+                <div class="carousel-caption">
+                  <h4>
+                    <%= photo.title %>
+                    <% if user_is_part?(@leg.trip) %>
+                      <%= link_to photo, method: :delete, data: { confirm: 'Möchtest du das Bild wirklich löschen?' } do %>
+                        <%= render 'custom/button_delete' %>
+                      <% end %>
+                    <% end %>
+                  </h4>
+                </div>
+              </div>
+              <% first = false %>
+            <% end %>
+          </div>
+          <!-- Controls -->
+          <a class="left carousel-control" href="#carousel-image" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="right carousel-control" href="#carousel-image" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+      <% end %>
+      <% if user_is_part?(@leg.trip) %>
+        <%= link_to 'Bild hinzufügen', "#imageModal", :class => 'btn btn-success btn-xs', "data-toggle" => "modal" %>
+      <% end %>
+    </div>
+  </div>
+  
+</div>
+
 <div id="map"></div>
+
 <script>
-  map = L.map('map', {zoomControl: false, attributionControl: false}).setView([55, 11], 8);
-  L.tileLayer('https://{s}.tiles.mapbox.com/v3/ktim.i8d5p969/{z}/{x}/{y}.png').addTo(map);
-  var trackLayer = omnivore.gpx('<%= @leg.track.url %>')
-    .on('ready', function() {
-        map.fitBounds(trackLayer.getBounds());
-    })
-    .addTo(map);
+    showMap();
+    var bounds = new L.LatLngBounds();
+    <% string = "" %>  
+    <% @leg.trip.legs.each do |leg| %>
+      <% string += "promise#{leg.id}, " %>
+      var promise<%= leg.id %> = new Promise(function(resolve, reject) {
+        var trackLayer<%= leg.id %> = omnivore.gpx('<%= leg.track.url %>')
+        .on('ready', function() {
+          bounds.extend(trackLayer<%= leg.id %>.getBounds());
+          <% if leg == @leg %>
+            trackLayer<%= leg.id %>.setStyle( {
+              weight: 4,
+              opacity: 1,
+              color: "#3c3",
+              clickable: false
+            });
+          <% else %>
+            trackLayer<%= leg.id %>.setStyle( {
+              weight: 4,
+              opacity: 1,
+              color: "#c33",
+              clickable: false
+            });
+          <% end %>
+          resolve("Stuff worked!");
+        })
+        .addTo(map);
+      });   
+    <% end %>
+    
+    function fit() {
+      map.fitBounds(bounds);
+    }
+    
+    Promise.all([<%=string[0..-3]%>]).then(function(){
+      fit();
+    });
+
 </script>

@@ -1,4 +1,4 @@
-<%= form_for @leg, html: { multipart: true } do |f| %>
+<%= form_for @leg, html: { multipart: true, class:"form-horizontal" } do |f| %>
   <% if @leg.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@leg.errors.count, "error") %> prohibited this leg from being saved:</h2>
@@ -12,19 +12,60 @@
   <% end %>
   <%= hidden_field_tag :trip, params[:trip] %>
 
-  <div class="field">
-    <%= f.label :description %><br>
-    <%= f.text_area :description %>
+  <div class="form-group">
+    <%= f.label :title, class: "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :title, {class: "form-control"} %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :distance %><br>
-    <%= f.text_field :distance %>
+  <div class="form-group">
+    <%= f.label :date, class: "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <div class="input-group date">
+        <%= f.text_field :date, {class: "form-control"} %>
+        <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+      </div>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :track %><br>
-    <%= f.file_field :track %>
+  <div class="form-group">
+    <%= f.label :description, class: "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_area :description, {class: "form-control"} %>
+    </div>
   </div>
-  <div class="actions">
-    <%= f.submit %>
+  <div class="form-group">
+    <%= f.label :distance, class: "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :distance, {class: "form-control"} %>
+    </div>
+  </div>
+   <div class="form-group">
+    <%= f.label :time, class: "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :time, {class: "form-control"} %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :maxkmh, class: "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :maxkmh, {class: "form-control"} %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :hm, class: "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :hm, {class: "form-control"} %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :track, class: "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.file_field :track %>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <%= f.submit nil, {class: "btn btn-primary"} %>
+    </div>
   </div>
 <% end %>

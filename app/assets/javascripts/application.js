@@ -16,4 +16,35 @@
 //= require_tree .
 //= require leaflet
 //= require leaflet-omnivore
+//= require gpx
+//= require togeojson
 //= require bootstrap
+//= require bootstrap-datepicker
+
+showMap = function() {
+  
+  map = L.map('map', {
+    zoomControl: false,
+    attributionControl: false
+  }).setView([55, 11], 8);
+  
+  L.tileLayer('https://{s}.tiles.mapbox.com/v3/ktim.i8d5p969/{z}/{x}/{y}.png').addTo(map);
+  
+  new L.Control.Zoom({
+    position: 'topright'
+  }).addTo(map);
+  
+  new L.control.scale({
+    imperial: false,
+    position: 'bottomright'
+  }).addTo(map);
+  
+};
+
+$(document).ready(function(){
+  $('.date').datepicker({
+    format: "yyyy-mm-dd",
+    weekStart: 1,
+    language: "de"
+  });
+});

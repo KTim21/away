@@ -1,25 +1,55 @@
-<h2><%= @trip.description %></h2>
+<div id="sidebar">
+  <%= render 'title', trip: @trip %>
+  
+  <div id="sidebar-content">
+    <div id="contentBox">
+      <h3>Etappen</h3>
+      <ol>
+        <% @trip.legs.each do |leg| %>
+          <%= render 'legs/leg_trip', leg: leg %>
+        <% end %>
+      </ol>
+      <% if user_is_part?(@trip) %>
+        <p>
+          <%= link_to 'Etappe hinzufügen', new_leg_path(trip: @trip.id), class: "btn btn-success btn-xs" %>
+        </p>
+      <% end %>
+    </div>
+  </div>
+  
+</div>
 
-<h3>Etappen</h2>
-
-<table class="table table-striped">
-  <%= render(@trip.legs) %>
-</table>
-<%= link_to 'Etappe hinzufügen', new_leg_path(trip: @trip.id), class: "btn btn-success" %>
-
-<%= link_to 'Edit', edit_trip_path(@trip) %> |
-
-
-<div id="map" class="panel" style="height: 300px; overflow: hidden;"></div>
+<div id="map"></div>
 
 <script>
-  map = L.map('map', {zoomControl: false, attributionControl: false}).setView([55, 11], 8);
-  L.tileLayer('https://{s}.tiles.mapbox.com/v3/ktim.i8d5p969/{z}/{x}/{y}.png').addTo(map);
-  <% @trip.legs.each do |leg| %>
-  var trackLayer<%= leg.id %> = omnivore.gpx('<%= leg.track.url %>')
-    .on('ready', function() {
-        map.fitBounds(trackLayer<%= leg.id %>.getBounds());
-    })
-    .addTo(map);
-  <% end %>
+    showMap();
+
+    var bounds = new L.LatLngBounds();
+    <% string = "" %>  
+    <% @trip.legs.each do |leg| %>
+      <% string += "promise#{leg.id}, " %>
+      var promise<%= leg.id %> = new Promise(function(resolve, reject) {
+        var trackLayer<%= leg.id %> = omnivore.gpx('<%= leg.track.url %>')
+        .on('ready', function() {
+          trackLayer<%= leg.id %>.setStyle( {
+            weight: 4,
+            opacity: 1,
+            color: "#c33",
+            clickable: false
+          });
+          bounds.extend(trackLayer<%= leg.id %>.getBounds());
+          resolve("Stuff worked!");
+        })
+        .addTo(map);
+      });   
+    <% end %>
+    
+    function fit() {
+      map.fitBounds(bounds);
+    }
+    
+    Promise.all([<%=string[0..-3]%>]).then(function(){
+      fit();
+    });
+
 </script>

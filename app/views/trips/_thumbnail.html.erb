@@ -1,0 +1,43 @@
+<div class="col-sm-6 col-md-4 trip-thumbnail">
+  <div class="thumbnail">
+    <% if trip.image.exists? %>
+      <%= link_to trip do %>
+        <%= image_tag trip.image.url %>
+      <% end %>
+    <% end %>
+    <div class="caption">
+    
+      <h3>
+        <%= link_to trip.title, trip %>
+        <% if user_is_part?(trip) %>
+          <%= link_to edit_trip_path(trip) do %>
+            <%= render 'custom/button_edit' %>
+          <% end %>
+          <%= link_to trip, method: :delete, data: { confirm: 'Möchtest du die Tour wirklich löschen?' } do %>
+            <%= render 'custom/button_delete' %>
+          <% end %>
+        <% end %>
+      </h3>
+      <p><%= trip.description %></p>
+      
+      <% if user_is_part?(trip) %>
+          <% trip.users.each do |user| %>
+            <span class="badge">
+              <%= link_to user.name, user %>
+              <% if trip.users.count > 1 %>
+                <%= link_to remove_user_trip_path(trip.id, user: user.id) do %>
+                  <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                <% end %>
+              <% end %>
+            </span>
+          <% end %>
+          <span class="badge">
+            <%= link_to "#userModal-#{trip.id}", "data-toggle" => "modal" do %>
+              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            <% end %>
+          </span>
+      <% end %>
+      
+    </div>
+  </div>
+</div>

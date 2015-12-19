@@ -1,0 +1,16 @@
+<tr>
+  <td class="trip-description">
+    <h3>
+      <%= link_to trip.title, trip %>
+    </h3>
+    <% if trip.image.exists? %>
+      <%= image_tag trip.image.url %>
+    <% end %>
+    <p><%= trip.description %></p>
+   <h4>Teilnehmer</h4>
+    <% trip.users.each do |user| %>
+      <%= link_to user.name, user %>
+    <% end %>
+    <%= link_to 'Teilnehmer hinzufügen', "#userModal-#{trip.id}", :class => 'btn btn-success btn-xs', "data-toggle" => "modal" %>
+  </td>
+</tr>

@@ -1,6 +1,6 @@
 class LegsController < ApplicationController
-  before_action :set_leg, only: [:show, :edit, :update, :destroy]
-
+  skip_before_action :authorize, only: [:show]
+  before_action :set_leg, only: [:show, :edit, :update, :destroy, :add_image]
   # GET /legs
   # GET /legs.json
   def index
@@ -10,25 +10,28 @@ class LegsController < ApplicationController
   # GET /legs/1
   # GET /legs/1.json
   def show
+    @photo = Photo.new
   end
 
   # GET /legs/new
   def new
     @leg = Leg.new
+    @trip = Trip.find(params[:trip])
   end
 
   # GET /legs/1/edit
   def edit
+    @trip = @leg.trip
   end
 
   # POST /legs
   # POST /legs.json
   def create
-    trip = Trip.find(params[:trip])
-    @leg = trip.legs.build(leg_params)
+    @trip = Trip.find(params[:trip])
+    @leg = @trip.legs.build(leg_params)
     respond_to do |format|
       if @leg.save
-        format.html { redirect_to @leg, notice: 'Leg was successfully created.' }
+        format.html { redirect_to @leg }
         format.json { render :show, status: :created, location: @leg }
       else
         format.html { render :new }
@@ -42,7 +45,7 @@ class LegsController < ApplicationController
   def update
     respond_to do |format|
       if @leg.update(leg_params)
-        format.html { redirect_to @leg, notice: 'Leg was successfully updated.' }
+        format.html { redirect_to @leg }
         format.json { render :show, status: :ok, location: @leg }
       else
         format.html { render :edit }
@@ -54,9 +57,10 @@ class LegsController < ApplicationController
   # DELETE /legs/1
   # DELETE /legs/1.json
   def destroy
+    trip = @leg.trip
     @leg.destroy
     respond_to do |format|
-      format.html { redirect_to legs_url, notice: 'Leg was successfully destroyed.' }
+      format.html { redirect_to trip, notice: 'Leg was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -69,6 +73,6 @@ class LegsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def leg_params
-      params.require(:leg).permit(:description, :distance, :track, :trip)
+      params.require(:leg).permit(:description, :distance, :track, :trip, :date, :title, :maxkmh, :time, :hm)
     end
 end

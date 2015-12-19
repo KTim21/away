@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151112195526) do
+ActiveRecord::Schema.define(version: 20151205141808) do
 
   create_table "legs", force: :cascade do |t|
     t.text     "description"
@@ -23,15 +23,46 @@ ActiveRecord::Schema.define(version: 20151112195526) do
     t.integer  "track_file_size"
     t.datetime "track_updated_at"
     t.integer  "trip_id"
+    t.date     "date"
+    t.string   "title"
+    t.decimal  "hm"
+    t.time     "time"
+    t.decimal  "maxkmh"
   end
 
   add_index "legs", ["trip_id"], name: "index_legs_on_trip_id"
 
+  create_table "photos", force: :cascade do |t|
+    t.string   "title"
+    t.integer  "leg_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
+  end
+
   create_table "trips", force: :cascade do |t|
     t.text     "description"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
     t.string   "title"
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
   end
+
+# Could not dump table "users" because of following NoMethodError
+#   undefined method `[]' for nil:NilClass
+
+  create_table "usertrips", id: false, force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "trip_id"
+  end
+
+  add_index "usertrips", ["trip_id"], name: "index_usertrips_on_trip_id"
+  add_index "usertrips", ["user_id"], name: "index_usertrips_on_user_id"
 
 end

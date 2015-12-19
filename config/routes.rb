@@ -1,6 +1,24 @@
 Rails.application.routes.draw do
-  resources :trips
+  
+  controller :sessions do
+    get 'login' => :new
+    post 'login' => :create
+    delete 'logout' => :destroy
+  end
+
+  resources :users
+  resources :photos
   resources :legs
+  
+  resources :trips do
+    member do
+      post 'add_user'
+      get 'remove_user'
+    end
+  end
+  
+  
+  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

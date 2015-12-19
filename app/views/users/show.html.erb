@@ -1,0 +1,17 @@
+<% @trips.each do |trip| %>
+  <%= render 'trips/modal_add_user', tripid: trip.id %>
+<% end %>
+
+<div id="map"></div>
+
+<div id="overlay"></div>
+
+<div id="row">
+  <% @trips.each do |trip| %>
+    <%= render 'trips/thumbnail', trip: trip %>
+  <% end %>
+</div>
+
+<script>
+  showMap();
+</script>
