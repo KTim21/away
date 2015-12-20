@@ -29,6 +29,7 @@
       <% end %>
     </div>
     <div id="contentBox">
+      <p><%= @leg.description %></p>
       <div id="contentLabels">
         <% if @leg.distance %>
           <span class="label label-default"><%= @leg.distance.round %> km</span>
@@ -43,7 +44,6 @@
           <span class="label label-default"><%= @leg.hm %> Höhenmeter</span>
         <% end %>
       </div>
-      <p><%= @leg.description %></p>
     </div>
     <div id="photoBox">
       <% if @leg.photos.any? %>
