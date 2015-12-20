@@ -43,6 +43,7 @@ class LegsController < ApplicationController
   # PATCH/PUT /legs/1
   # PATCH/PUT /legs/1.json
   def update
+    @trip = @leg.trip
     respond_to do |format|
       if @leg.update(leg_params)
         format.html { redirect_to @leg }
