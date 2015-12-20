@@ -29,25 +29,21 @@
       <% end %>
     </div>
     <div id="contentBox">
-      <p><%= @leg.description %></p>
-      <dl class="dl-horizontal">
+      <div id="contentLabels">
         <% if @leg.distance %>
-          <dt>Strecke</dt>
-          <dd><%= @leg.distance %> km</dd>
+          <span class="label label-default"><%= @leg.distance.round %> km</span>
         <% end %>
         <% if @leg.time %>
-          <dt>Fahrzeit</dt>
-          <dd><%= @leg.time %></dd>
+          <span class="label label-default"><%= @leg.time.strftime("%H:%M") %> Std.</span>
         <% end %>
         <% if @leg.maxkmh %>
-          <dt>Höchstgeschwindigkeit</dt>
-          <dd><%= @leg.maxkmh %></dd>
+          <span class="label label-default">max <%= @leg.maxkmh %> km/h</span>
         <% end %>
         <% if @leg.hm %>
-          <dt>Höhenmeter</dt>
-          <dd><%= @leg.hm %> m</dd>
+          <span class="label label-default"><%= @leg.hm %> Höhenmeter</span>
         <% end %>
-      </dl>
+      </div>
+      <p><%= @leg.description %></p>
     </div>
     <div id="photoBox">
       <% if @leg.photos.any? %>
