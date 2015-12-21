@@ -9,8 +9,12 @@
         <%= link_to "« #{@leg.prev_leg.title}", @leg.prev_leg, class: "left" %>
       <% end %>
       
+      <% if @leg.next_leg %>
+        <%= link_to "#{@leg.next_leg.title} »", @leg.next_leg, class: "right" %>
+      <% end %>
+      
       <h3>
-        <%= @leg.title %>
+        <span id="leg-title"><%= @leg.title %></span>
         <% if @leg.date %>
           <small><%= l @leg.date %></small>
         <% end %>
@@ -23,10 +27,6 @@
           <% end %>
         <% end %>
       </h3>
-      
-      <% if @leg.next_leg %>
-        <%= link_to "#{@leg.next_leg.title} »", @leg.next_leg, class: "right" %>
-      <% end %>
     </div>
     <div id="contentBox">
       <p><%= @leg.description %></p>

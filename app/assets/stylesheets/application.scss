@@ -135,20 +135,30 @@
 
       h3 {
         display: inline;
+        
+        #leg-title {
+          white-space: nowrap;
+        }
       }
       
       a.left {
         float: left;
+        margin-right: 1rem;
       }
       
       a.right {
         float: right;
+        margin-left: 1rem;
       } 
     }
     
     #contentBox {
       h3, p, ol, div {
         margin: 0.8rem;
+      }
+      
+      p {
+        clear: both;
       }
     
       ol {
