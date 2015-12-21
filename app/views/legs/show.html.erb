@@ -103,30 +103,32 @@
     var bounds = new L.LatLngBounds();
     <% string = "" %>  
     <% @leg.trip.legs.each do |leg| %>
-      <% string += "promise#{leg.id}, " %>
-      var promise<%= leg.id %> = new Promise(function(resolve, reject) {
-        var trackLayer<%= leg.id %> = omnivore.gpx('<%= leg.track.url %>')
-        .on('ready', function() {
-          bounds.extend(trackLayer<%= leg.id %>.getBounds());
-          <% if leg == @leg %>
-            trackLayer<%= leg.id %>.setStyle( {
-              weight: 4,
-              opacity: 1,
-              color: "#3c3",
-              clickable: false
-            });
-          <% else %>
-            trackLayer<%= leg.id %>.setStyle( {
-              weight: 4,
-              opacity: 1,
-              color: "#c33",
-              clickable: false
-            });
-          <% end %>
-          resolve("Stuff worked!");
-        })
-        .addTo(map);
-      });   
+      <% if leg.track.exists? %>
+        <% string += "promise#{leg.id}, " %>
+        var promise<%= leg.id %> = new Promise(function(resolve, reject) {
+          var trackLayer<%= leg.id %> = omnivore.gpx('<%= leg.track.url %>')
+          .on('ready', function() {
+            bounds.extend(trackLayer<%= leg.id %>.getBounds());
+            <% if leg == @leg %>
+              trackLayer<%= leg.id %>.setStyle( {
+                weight: 4,
+                opacity: 1,
+                color: "#3c3",
+                clickable: false
+              });
+            <% else %>
+              trackLayer<%= leg.id %>.setStyle( {
+                weight: 4,
+                opacity: 1,
+                color: "#c33",
+                clickable: false
+              });
+            <% end %>
+            resolve("Stuff worked!");
+          })
+          .addTo(map);
+        });
+      <% end %>
     <% end %>
     
     function fit() {
