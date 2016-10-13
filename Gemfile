@@ -40,7 +40,7 @@ gem 'bcrypt',                     '~> 3.1.7'
 
 
 # Leaflet
-gem 'leaflet-rails'
+gem 'leaflet-rails', '~> 0.7.7'
 gem "paperclip", "~> 5.1.0"
 
 
