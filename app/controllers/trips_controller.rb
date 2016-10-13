@@ -1,5 +1,5 @@
 class TripsController < ApplicationController
-  skip_before_action :authorize, only: [:show]
+  skip_before_action :authorize, only: [:show, :index]
   before_action :set_trip, only: [:show, :edit, :update, :destroy, :add_user, :remove_user]
 
   # GET /trips
