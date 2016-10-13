@@ -5,7 +5,8 @@ class TripsController < ApplicationController
   # GET /trips
   # GET /trips.json
   def index
-    redirect_to current_user
+    @trips = Trip.all.sort{|tripa, tripb| tripb.date <=> tripa.date}
+    @users = User.all
   end
 
   # GET /trips/1
