@@ -26,23 +26,23 @@
 
     var bounds = new L.LatLngBounds();
     <% string = "" %>  
-    <% @trip.legs.each do |leg| %>
-      <% string += "promise#{leg.id}, " %>
-      var promise<%= leg.id %> = new Promise(function(resolve, reject) {
-        var trackLayer<%= leg.id %> = omnivore.gpx('<%= leg.track.url %>')
+    <% @tracks.each_with_index do |track,index| %>
+      <% string += "promise#{index}, " %>
+      var promise<%= index %> = new Promise(function(resolve, reject) {
+        var trackLayer<%= index %> = omnivore.gpx('<%= track.url %>')
         .on('ready', function() {
           this.eachLayer(function(layer){
             if (layer instanceof L.Marker) {
               layer.setOpacity(0);
             }
           });
-          trackLayer<%= leg.id %>.setStyle( {
+          trackLayer<%= index %>.setStyle( {
             weight: 4,
             opacity: 1,
             color: "#c33",
             clickable: false
           });
-          bounds.extend(trackLayer<%= leg.id %>.getBounds());
+          bounds.extend(trackLayer<%= index %>.getBounds());
           resolve("Stuff worked!");
         })
         .addTo(map);

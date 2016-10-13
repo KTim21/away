@@ -11,6 +11,8 @@ class TripsController < ApplicationController
   # GET /trips/1
   # GET /trips/1.json
   def show
+    @tracks = @trip.legs.map { |leg| leg.track }
+    @tracks.delete_if { |track| !track.exists? }
   end
 
   # GET /trips/new

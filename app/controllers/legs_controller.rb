@@ -11,6 +11,8 @@ class LegsController < ApplicationController
   # GET /legs/1.json
   def show
     @photo = Photo.new
+    @tracks = @trip.legs.map { |leg| leg.track }
+    @tracks.delete_if { |track| !track.exists? }
   end
 
   # GET /legs/new
@@ -21,7 +23,6 @@ class LegsController < ApplicationController
 
   # GET /legs/1/edit
   def edit
-    @trip = @leg.trip
   end
 
   # POST /legs
@@ -43,7 +44,6 @@ class LegsController < ApplicationController
   # PATCH/PUT /legs/1
   # PATCH/PUT /legs/1.json
   def update
-    @trip = @leg.trip
     respond_to do |format|
       if @leg.update(leg_params)
         format.html { redirect_to @leg }
@@ -58,10 +58,9 @@ class LegsController < ApplicationController
   # DELETE /legs/1
   # DELETE /legs/1.json
   def destroy
-    trip = @leg.trip
     @leg.destroy
     respond_to do |format|
-      format.html { redirect_to trip, notice: 'Leg was successfully destroyed.' }
+      format.html { redirect_to @trip, notice: 'Leg was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -70,6 +69,7 @@ class LegsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_leg
       @leg = Leg.find(params[:id])
+      @trip = @leg.trip
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

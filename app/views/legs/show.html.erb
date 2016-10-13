@@ -101,33 +101,38 @@
 <script>
     showMap();
     var bounds = new L.LatLngBounds();
+    var bounds_all = new L.LatLngBounds();
+    var trackexists = false;
     <% string = "" %>  
-    <% @leg.trip.legs.each do |leg| %>
-      <% if leg.track.exists? %>
-        <% string += "promise#{leg.id}, " %>
-        var promise<%= leg.id %> = new Promise(function(resolve, reject) {
-          var trackLayer<%= leg.id %> = omnivore.gpx('<%= leg.track.url %>')
+    <% @tracks.each_with_index do |track,index| %>
+      <% if track.exists? %>
+        <% string += "promise#{index}, " %>
+        var promise<%= index %> = new Promise(function(resolve, reject) {
+          var trackLayer<%= index %> = omnivore.gpx('<%= track.url %>')
           .on('ready', function() {
             this.eachLayer(function(layer){
               if (layer instanceof L.Marker) {
                 layer.setOpacity(0);
               }
             });
-            bounds.extend(trackLayer<%= leg.id %>.getBounds());
-            <% if leg == @leg %>
-              trackLayer<%= leg.id %>.setStyle( {
+            <% if track.instance == @leg %>
+              trackLayer<%= index %>.setStyle( {
                 weight: 4,
                 opacity: 1,
                 color: "#3c3",
                 clickable: false
               });
+              bounds.extend(trackLayer<%= index %>.getBounds());
+              bounds_all.extend(trackLayer<%= index %>.getBounds());
+              trackexists = true;
             <% else %>
-              trackLayer<%= leg.id %>.setStyle( {
+              trackLayer<%= index %>.setStyle( {
                 weight: 4,
                 opacity: 1,
                 color: "#c33",
                 clickable: false
               });
+              bounds_all.extend(trackLayer<%= index %>.getBounds());
             <% end %>
             resolve("Stuff worked!");
           })
@@ -137,7 +142,12 @@
     <% end %>
     
     function fit() {
-      map.fitBounds(bounds);
+      if(trackexists) {
+        map.fitBounds(bounds);
+      }
+      else {
+        map.fitBounds(bounds_all);
+        }
     }
     
     Promise.all([<%=string[0..-3]%>]).then(function(){
