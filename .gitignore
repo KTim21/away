@@ -19,3 +19,5 @@
 # Ignore user files
 /public/system/*
 /vendor/bundle/*
+
+*.kate-swp

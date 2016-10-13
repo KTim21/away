@@ -10,7 +10,7 @@ gem 'mysql2' , '~> 0.3.18'
 # Use SCSS and Bootstrap for stylesheets
 gem 'sass-rails',                 '~> 5.0'
 gem 'bootstrap-sass',             '~> 3.3', '>= 3.3.5.1'
-gem 'bootstrap-datepicker-rails', '~> 1.5'
+gem 'bootstrap-datepicker-rails', '~> 1.6', '>= 1.6.1.1'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier',                   '>= 1.3.0'
