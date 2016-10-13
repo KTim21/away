@@ -62,7 +62,7 @@
             <% first = true %>
             <% @leg.photos.each do |photo| %>
               <div class="item<%=' active'if first %>">
-                <%= image_tag photo.image.url %>
+                <%= image_tag photo.image.url(:medium) %>
                 <div class="carousel-caption">
                   <h4>
                     <%= photo.title %>

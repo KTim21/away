@@ -18,3 +18,4 @@
 
 # Ignore user files
 /public/system/*
+/vendor/bundle/*
