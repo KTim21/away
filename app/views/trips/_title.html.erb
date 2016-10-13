@@ -1,6 +1,6 @@
 <div id="tourTitle">
   <% if trip.image.exists? %>
-    <%= image_tag trip.image.url %>
+    <%= image_tag trip.image.url(:medium) %>
   <% end %>
   <h2>
     <%= link_to trip.title, trip %>

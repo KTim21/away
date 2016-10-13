@@ -2,7 +2,7 @@
   <div class="thumbnail">
     <% if trip.image.exists? %>
       <%= link_to trip do %>
-        <%= image_tag trip.image.url %>
+        <%= image_tag trip.image.url(:medium) %>
       <% end %>
     <% end %>
     <div class="caption">
