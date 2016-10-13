@@ -7,8 +7,14 @@
 <div id="overlay"></div>
 
 <div id="row">
-  <% @trips.each do |trip| %>
+  <% @trips.each_with_index do |trip,index| %>
     <%= render 'trips/thumbnail', trip: trip %>
+    <% if index%3 == 2 %>
+      <div class="clearfix visible-md-block visible-lg-block"></div>
+    <% end %>
+    <% if index%2 == 2 %>
+      <div class="clearfix visible-xs-block visible-sm-block"></div>
+    <% end %>
   <% end %>
 </div>
 
