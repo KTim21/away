@@ -27,4 +27,8 @@ class User < ActiveRecord::Base
   def forget
     update_attribute(:remember, nil)
   end
+  
+  def tripssorted
+    trips.sort{|tripa, tripb| tripb.date <=> tripa.date}
+  end
 end

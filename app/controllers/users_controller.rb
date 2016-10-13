@@ -13,7 +13,7 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    @trips = @user.trips
+    @trips = @user.tripssorted
     @users = User.all
   end
 

@@ -9,4 +9,12 @@ class Trip < ActiveRecord::Base
   do_not_validate_attachment_file_type :image
   
   validates :title, presence: true
+  
+  def date
+    if legs.first != nil && legs.first.date != nil
+      legs.first.date
+    else
+      Date.parse('1970-01-01')
+    end
+  end
 end
