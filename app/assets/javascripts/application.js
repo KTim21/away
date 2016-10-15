@@ -28,7 +28,7 @@ showMap = function() {
     attributionControl: false
   }).setView([55, 11], 8);
   
-  L.tileLayer('https://{s}.tiles.mapbox.com/v3/ktim.i8d5p969/{z}/{x}/{y}.png').addTo(map);
+  L.tileLayer('https://api.mapbox.com/styles/v1/ktim/ciubls46j006k2io6zrcgiwfp/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoia3RpbSIsImEiOiJ4SW0zUTRzIn0.O2NZ8hw_wTvHTF7CeNJFdw').addTo(map);
   
   new L.Control.Zoom({
     position: 'topright'
