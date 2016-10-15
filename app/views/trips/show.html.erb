@@ -52,7 +52,7 @@
     function fit() {
       var objekt = $( "#sidebar" );
 			var offset = objekt.offset();
-			map.fitBounds(bounds, {paddingTopLeft: [offset.left + objekt.width(),0]});
+			map.fitBounds(bounds, {paddingTopLeft: [offset.left + objekt.width() + 10, 10], paddingBottomRight: [10,10]});
     }
     
     Promise.all([<%=string[0..-3]%>]).then(function(){
