@@ -142,11 +142,13 @@
     <% end %>
     
     function fit() {
+      var objekt = $( "#sidebar" );
+			var offset = objekt.offset();
       if(trackexists) {
-        map.fitBounds(bounds);
+        map.fitBounds(bounds, {paddingTopLeft: [offset.left + objekt.width(),0]});
       }
       else {
-        map.fitBounds(bounds_all);
+        map.fitBounds(bounds_all, {paddingTopLeft: [offset.left + objekt.width(),0]});
         }
     }
     
