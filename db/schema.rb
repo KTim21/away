@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151205141808) do
+ActiveRecord::Schema.define(version: 20161016203303) do
 
   create_table "legs", force: :cascade do |t|
     t.text     "description"
@@ -41,6 +41,18 @@ ActiveRecord::Schema.define(version: 20151205141808) do
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
+    t.decimal  "lat"
+    t.decimal  "lon"
+  end
+
+  create_table "tracks", force: :cascade do |t|
+    t.string   "trackfile_file_name"
+    t.string   "trackfile_content_type"
+    t.integer  "trackfile_file_size"
+    t.datetime "trackfile_updated_at"
+    t.integer  "leg_id"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "trips", force: :cascade do |t|

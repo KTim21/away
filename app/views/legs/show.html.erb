@@ -67,6 +67,9 @@
                   <h4>
                     <%= photo.title %>
                     <% if user_is_part?(@leg.trip) %>
+                      <%= link_to edit_photo_path(photo) do %>
+                        <%= render 'custom/button_edit' %>
+                      <% end %>
                       <%= link_to photo, method: :delete, data: { confirm: 'Möchtest du das Bild wirklich löschen?' } do %>
                         <%= render 'custom/button_delete' %>
                       <% end %>
