@@ -159,10 +159,10 @@
       var objekt = $( "#sidebar" );
 			var offset = objekt.offset();
       if(trackexists) {
-        map.fitBounds(bounds_all.extend(bounds), {paddingTopLeft: [offset.left + objekt.width()+10,10], paddingBottomRight: [10,10]});
+        map.fitBounds(bounds, {paddingTopLeft: [offset.left + objekt.width()+10,10], paddingBottomRight: [10,10]});
       }
       else {
-        map.fitBounds(bounds_all, {paddingTopLeft: [offset.left + objekt.width()+10,10], paddingBottomRight: [10,10]});
+        map.fitBounds(bounds_all.extend(bounds), {paddingTopLeft: [offset.left + objekt.width()+10,10], paddingBottomRight: [10,10]});
         }
     }
     
