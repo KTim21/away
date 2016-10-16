@@ -102,6 +102,11 @@
 <div id="map"></div>
 
 <script>
+    var myIcon = L.icon({
+      iconUrl: '<%= image_path "photo-passive.svg" %>',
+      iconSize: [21,21],
+      iconAnchor: [11,11],
+    });
     showMap();
     var bounds = new L.LatLngBounds();
     var bounds_all = new L.LatLngBounds();
@@ -126,7 +131,6 @@
                 clickable: false
               });
               bounds.extend(trackLayer<%= index %>.getBounds());
-              bounds_all.extend(trackLayer<%= index %>.getBounds());
               trackexists = true;
             <% else %>
               trackLayer<%= index %>.setStyle( {
@@ -144,11 +148,18 @@
       <% end %>
     <% end %>
     
+    <% @leg.photos.each_with_index do |photo,index| %>
+      <% unless photo.lat == nil || photo.lon == nil %>
+        L.marker([<%= photo.lat %>, <%= photo.lon %>], {icon: myIcon, clickable: false}).addTo(map);
+        bounds.extend([<%= photo.lat %>, <%= photo.lon %>]);
+      <% end %>
+    <% end %>
+    
     function fit() {
       var objekt = $( "#sidebar" );
 			var offset = objekt.offset();
       if(trackexists) {
-        map.fitBounds(bounds, {paddingTopLeft: [offset.left + objekt.width()+10,10], paddingBottomRight: [10,10]});
+        map.fitBounds(bounds_all.extend(bounds), {paddingTopLeft: [offset.left + objekt.width()+10,10], paddingBottomRight: [10,10]});
       }
       else {
         map.fitBounds(bounds_all, {paddingTopLeft: [offset.left + objekt.width()+10,10], paddingBottomRight: [10,10]});
